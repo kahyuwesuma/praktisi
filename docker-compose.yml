@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    restart: always
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
+  db:
+    image: mysql:8
+    container_name: laravel_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: praktisi
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - dbdata:/var/lib/mysql
+volumes:
+  dbdata:
