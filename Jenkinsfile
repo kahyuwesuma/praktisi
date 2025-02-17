@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'main', credentialsId: 'github-ssh', url: 'git@github.com:kahyuwesuma/DevOps-PRAKTISI.git'
+                git branch: 'main', credentialsId: 'github-ssh', url: 'git@github.com:kahyuwesuma/praktisi.git'
                 echo 'Berhasil'
             }
         }
