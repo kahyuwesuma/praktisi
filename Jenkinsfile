@@ -28,6 +28,11 @@ pipeline {
                 }
             }
         }
+        stage('Check SQLite') {
+            steps {
+                sh 'ls /var/www/database'
+            }
+        }
         stage('Run Unit Tests') {
             steps {
                 script {
