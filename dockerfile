@@ -16,14 +16,14 @@ WORKDIR /var/www
 COPY . .
 
 # Set proper permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www
 
 # Install Composer dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Set the entrypoint to run artisan commands before starting PHP-FPM
-ENTRYPOINT ["php", "artisan"]
+# Expose port jika menggunakan `artisan serve`
+EXPOSE 8000
 
-# Default command
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Alternatif: Jika tidak menggunakan Nginx dan hanya ingin pakai `artisan serve`
+# CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
