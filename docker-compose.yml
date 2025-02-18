@@ -21,9 +21,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: praktisi
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: 
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - dbdata:/var/lib/mysql
