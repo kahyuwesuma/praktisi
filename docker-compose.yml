@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   app:
     build: .
@@ -21,8 +23,8 @@ services:
     environment:
       MYSQL_DATABASE: praktisi
       MYSQL_USER: root
-      MYSQL_PASSWORD: 
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - dbdata:/var/lib/mysql
