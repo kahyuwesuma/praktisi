@@ -12,7 +12,7 @@ class MahasiswaTest extends TestCase {
     public function test_read_mahasiswa(): void {
         $mahasiswa = Mahasiswa::factory()->create();
 
-        $response = $this->get('/praktisi/mahasiswa');
+        $response = $this->get('/praktisi/mahasiswas');
 
         $response->assertStatus(200);
         $response->assertSee($mahasiswa->nama);
