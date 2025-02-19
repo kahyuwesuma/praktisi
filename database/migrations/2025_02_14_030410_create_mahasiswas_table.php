@@ -10,8 +10,7 @@ return new class extends Migration {
         Schema::create('mahasiswa', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('token')->unique();
-            $table->string('username')->unique();
+            $table->string('nim')->unique();
             $table->string('email')->unique();
             $table->timestamps();
         });
