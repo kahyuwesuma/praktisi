@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'PRAKTISI-APP'
-        DOCKER_REGISTRY = 'DOCKER.IO'
-        DOCKER_TAG = 'LATEST'
-        CONTAINER_NAME = 'PRAKTISI-APP-CONTAINER'
+        DOCKER_IMAGE = 'praktisi-app'
+        DOCKER_REGISTRY = 'docker.io'
+        DOCKER_TAG = 'latest'
+        CONTAINER_NAME = 'praktisi-app-container'
     }
 
     stages {
