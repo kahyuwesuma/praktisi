@@ -33,16 +33,24 @@ pipeline {
                         string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'),
                         string(credentialsId: 'DB_DATABASE', variable: 'DB_DATABASE')
                     ]) {
-                        sh """
-                        docker run -d -p 8083:8083 --name ${CONTAINER_NAME} \
-                        -e DB_HOST=$DB_HOST \
-                        -e APP_KEY=$APP_KEY \
-                        -e DB_USERNAME=$DB_USERNAME \
-                        -e DB_PASSWORD=$DB_PASSWORD \
-                        -e DB_DATABASE=$DB_DATABASE \
-                        ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} \
-                        bash -c "php artisan serve --host=0.0.0.0 --port=8083"
-                        """
+                        withEnv([
+                            "DB_HOST=${DB_HOST}",
+                            "APP_KEY=${APP_KEY}",
+                            "DB_USERNAME=${DB_USERNAME}",
+                            "DB_PASSWORD=${DB_PASSWORD}",
+                            "DB_DATABASE=${DB_DATABASE}"
+                        ]) {
+                            sh '''
+                            docker run -d -p 8083:8083 --name '${CONTAINER_NAME}' \
+                            -e DB_HOST=$DB_HOST \
+                            -e APP_KEY=$APP_KEY \
+                            -e DB_USERNAME=$DB_USERNAME \
+                            -e DB_PASSWORD=$DB_PASSWORD \
+                            -e DB_DATABASE=$DB_DATABASE \
+                            ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} \
+                            bash -c "php artisan serve --host=0.0.0.0 --port=8083"
+                            '''
+                        }
                     }
                 }
             }
