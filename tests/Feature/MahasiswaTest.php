@@ -13,6 +13,7 @@ class MahasiswaTest extends TestCase {
         $mahasiswa = Mahasiswa::factory()->create();
 
         $response = $this->get('/praktisi/mahasiswas');
+        echo "";
 
         $response->assertStatus(200);
         $response->assertSee($mahasiswa->nama);
