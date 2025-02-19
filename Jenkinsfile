@@ -15,13 +15,13 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //    steps {
+        //        script {
+        //            sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+        //        }
+        //    }
+        // }
 
         stage('Run Laravel Container') {
             steps {
@@ -41,7 +41,11 @@ pipeline {
                             "DB_DATABASE=${DB_DATABASE}"
                         ]) {
                             sh '''
-                            docker run -d -p 8083:8083 --name '${CONTAINER_NAME}' \
+                            echo "Starting Docker Container..."
+                            echo "Container Name: $CONTAINER_NAME"
+                            echo "Docker Image: ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}"
+
+                            docker run -d -p 8083:8083 --name $CONTAINER_NAME \
                             -e DB_HOST=$DB_HOST \
                             -e APP_KEY=$APP_KEY \
                             -e DB_USERNAME=$DB_USERNAME \
@@ -49,6 +53,8 @@ pipeline {
                             -e DB_DATABASE=$DB_DATABASE \
                             ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG} \
                             bash -c "php artisan serve --host=0.0.0.0 --port=8083"
+
+                            echo "Container Started Successfully!"
                             '''
                         }
                     }
@@ -59,15 +65,23 @@ pipeline {
         stage('Run Migrations and Seed') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} php artisan migrate:fresh --seed"
+                    sh '''
+                    echo "Running Migrations and Seeding Database..."
+                    docker exec $CONTAINER_NAME php artisan migrate:fresh --seed
+                    echo "Migrations Completed!"
+                    '''
                 }
             }
         }
 
-        stage('Run Test') {
+        stage('Run Tests') {
             steps {
                 script {
-                    sh "docker exec ${CONTAINER_NAME} php artisan test"
+                    sh '''
+                    echo "Running Tests..."
+                    docker exec $CONTAINER_NAME php artisan test
+                    echo "Tests Completed!"
+                    '''
                 }
             }
         }
@@ -75,15 +89,20 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Pipeline Succeeded!'
         }
 
         failure {
-            echo 'Pipeline failed!'
-            echo 'Cleaning up Docker containers'
-            sh "docker stop ${CONTAINER_NAME} || true"
-            sh "docker rm ${CONTAINER_NAME} || true"
-            sh 'docker system prune -f'
+            echo 'Pipeline Failed!'
+            echo 'Cleaning up Docker Containers...'
+            script {
+                sh '''
+                docker ps -a
+                docker stop $CONTAINER_NAME || true
+                docker rm $CONTAINER_NAME || true
+                docker system prune -f
+                '''
+            }
         }
     }
 }
