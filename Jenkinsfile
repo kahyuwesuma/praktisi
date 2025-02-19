@@ -9,11 +9,11 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git branch: 'main', credentialsId: 'github-praktisi', url: 'git@github.com:kahyuwesuma/DevOps-PRAKTISI.git'
-            }
-        }
+        // stage('Checkout Code') {
+        //    steps {
+        //        git branch: 'main', credentialsId: 'github-praktisi', url: 'git@github.com:kahyuwesuma/DevOps-PRAKTISI.git'
+        //    }
+        // }
 
         // stage('Build Docker Image') {
         //    steps {
