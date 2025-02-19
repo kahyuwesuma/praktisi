@@ -74,6 +74,19 @@ pipeline {
             }
         }
 
+        stage('Clear Cache and Optimize') {
+            steps {
+                script {
+                    sh '''
+                    echo "Running Tests..."
+                    docker exec $CONTAINER_NAME php artisan config:cache
+                    docker exec $CONTAINER_NAME php artisan optimize
+                    echo "Tests Completed!"
+                    '''
+                }
+            }
+        }
+
         stage('Run Tests') {
             steps {
                 script {
