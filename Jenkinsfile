@@ -12,6 +12,7 @@ pipeline {
          stage('Checkout Code') {
             steps {
                 git branch: 'main', credentialsId: 'github-praktisi', url: 'git@github.com:kahyuwesuma/DevOps-PRAKTISI.git'
+                echo 'Berhasil'
             }
          }
 
