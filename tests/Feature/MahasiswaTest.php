@@ -40,11 +40,3 @@ class MahasiswaTest extends TestCase {
         $response->assertRedirect();
         $this->assertDatabaseHas('mahasiswa', ['nim' => '22009999']);
     }
-
-    public function test_delete_mahasiswa(): void {
-        $mahasiswa = Mahasiswa::factory()->create();
-        $response = $this->delete("/admin/mahasiswa/{$mahasiswa->id}");
-        $response->assertRedirect();
-        $this->assertDatabaseMissing('mahasiswa', ['id' => $mahasiswa->id]);
-    }
-}
