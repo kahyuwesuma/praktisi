@@ -40,3 +40,4 @@ class MahasiswaTest extends TestCase {
         $response->assertRedirect();
         $this->assertDatabaseHas('mahasiswa', ['nim' => '22009999']);
     }
+}
