@@ -20,6 +20,7 @@ pipeline {
             steps {
                 script {
                     sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    echo 'Build Berhasil'
                 }
             }
         }
