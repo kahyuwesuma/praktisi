@@ -13,6 +13,7 @@ pipeline {
             steps {
                 git branch: 'main', credentialsId: 'github-praktisi', url: 'git@github.com:kahyuwesuma/DevOps-PRAKTISI.git'
                 echo 'Berhasil'
+                echo 'Uji coba pipeline'
             }
          }
 
